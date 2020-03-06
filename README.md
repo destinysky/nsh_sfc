@@ -84,9 +84,20 @@ The allocation of VNFs can be input manually. It can also be allocated automatic
 *N* is the set of nodes. *R* is the set of SFCs. ![](http://latex.codecogs.com/gif.latex?K_r) is the set of VNFs in SFC *r*. ![](http://latex.codecogs.com/gif.latex?x_n^{rk}=1)  VNF *k* in SFC *r* is allocated to node *n*, 0 otherwise.
 
 ### Steps:
+1. 
+2. 
+3. 
 
 ### Result:
 #### Imgs:
+![](https://github.com/destinysky/resources/blob/master/nsh_sfc/regres.png)
+
+![](https://github.com/destinysky/resources/blob/master/nsh_sfc/encap.png)
+
+![](https://github.com/destinysky/resources/blob/master/nsh_sfc/before.png)
+
+![](https://github.com/destinysky/resources/blob/master/nsh_sfc/after.png)
+
 
 #### Video:
 

@@ -236,7 +236,8 @@ In this demo, Ryu 4.32, Mininet 2.3.0d6, Open vSwitch 2.12.0, Python 3.6.9, and 
 
 
 #### Video:
-
+![demo_gif](https://github.com/destinysky/resources/blob/master/nsh_sfc/screencast.gif)
+[![demo video](https://github.com/destinysky/resources/blob/master/nsh_sfc/Screencast_x264.mp4)]
 
 ## Files:
 - sfc_nfv.py: Ryu application
@@ -244,7 +245,7 @@ In this demo, Ryu 4.32, Mininet 2.3.0d6, Open vSwitch 2.12.0, Python 3.6.9, and 
 - topology.py: Mininet topology.
 
 ## Citation:
-If these codes are helpful to your work, please cite this paper.
+If these codes are helpful to your work, please cite this paper. Thank you.
 >R. Kang, F. He, T. Sato, and E. Oki, "Demonstration of Network Service Header Based Service Function Chain Application with Function Allocation Model," NOMS 2020 - 2020 IEEE/IFIP Network Operations and Management Symposium, Budapest, 2020, pp. 1-2.
 
 >@INPROCEEDINGS{203830, 

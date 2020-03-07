@@ -247,7 +247,7 @@ In this demo, Ryu 4.32, Mininet 2.3.0d6, Open vSwitch 2.12.0, Python 3.6.9, and 
 If these codes are helpful to your work, please cite this paper.
 >R. Kang, F. He, T. Sato, and E. Oki, "Demonstration of Network Service Header Based Service Function Chain Application with Function Allocation Model," NOMS 2020 - 2020 IEEE/IFIP Network Operations and Management Symposium, Budapest, 2020, pp. 1-2.
 
->@INPROCEEDINGS{8406131, 
+>@INPROCEEDINGS{203830, 
 author={R. {kang} and F. {He} and T. {Sato} and E. {Oki}}, 
 booktitle={NOMS 2020 - 2020 IEEE/IFIP Network Operations and Management Symposium}, 
 title={Demonstration of Network Service Header Based Service Function Chain Application with Function Allocation Model}, 

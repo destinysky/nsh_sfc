@@ -54,7 +54,132 @@ It may change the path of packets.
    - **Otherwise**: decapsulates NSH header and Transport Encapsulation of the packet from the last hop , routes the decapsulated packet to the connected SF, routes the packet from the connected SF to the destination node.
 
 ## Flow tables
+### Table 0:
+<table>
+   <tr>
+      <td>Priority</td>
+      <td>Match</td>
+      <td>Action</td>
+      <td>Note</td>
+   </tr>
+   <tr>
+      <td>8</td>
+      <td>conditions of the added flow</td>
+      <td>write meta = flow id, go to table 2</td>
+      <td>detection entry</td>
+   </tr>
+   <tr>
+      <td>10</td>
+      <td>mac address, ip address, port of register packet</td>
+      <td>go to table 2</td>
+      <td>VNF registry</td>
+   </tr>
+   <tr>
+      <td>9</td>
+      <td>NSH header</td>
+      <td>Decrease NSH TTL, go to table 1</td>
+      <td></td>
+   </tr>
+   <tr>
+      <td>0</td>
+      <td>-</td>
+      <td>go to table 3</td>
+      <td>default entry</td>
+   </tr>
+   <tr>
+      <td>8</td>
+      <td>conditions of the added flow</td>
+      <td>encapsulate the Type 1 NSH header, set spi as service id, set si as the length of the SFC , encapsulate enthernet header, set the destination address as the address of the first SF of this SFC, set the source address as the address of the original one, go to table 3</td>
+      <td>Source entry</td>
+   </tr>
+   <tr>
+      <td>6</td>
+      <td>conditions of the added flow</td>
+      <td>encapsulate the Type 1 NSH header, set spi as service id, set si as the remaining length of the SFC, encapsulate enthernet header, set the destination address as the address of the next SF, set the source address as the address of this SF, go to table 3</td>
+      <td>Middle entry For SFC-non-aware function,  packet to the next hop</td>
+   </tr>
+   <tr>
+      <td></td>
+   </tr>
+</table>
 
+### Table 1:
+<table>
+   <tr>
+      <td>Priority</td>
+      <td>Match</td>
+      <td>Action</td>
+      <td>Note</td>
+   </tr>
+   <tr>
+      <td>8</td>
+      <td>NSH header, spi, si</td>
+      <td>Change the destination address to the address of the next hop, go to table 3</td>
+      <td>Middle entry For SFC-aware function</td>
+   </tr>
+   <tr>
+      <td>8</td>
+      <td>NSH header, spi, si=0</td>
+      <td>Decapsulate the NSH header and Ethernet header</td>
+      <td>Destination entry For SFC-aware function</td>
+   </tr>
+   <tr>
+      <td>6</td>
+      <td>NSH header, spi, si</td>
+      <td>Decapsulate the NSH header and enthernet header and output to the SF</td>
+      <td>Middle entry For SFC-non-aware function, packet from the last hop</td>
+   </tr>
+   <tr>
+      <td>6</td>
+      <td>NSH header, spi, si=1, destination mac address = the address of the last SF</td>
+      <td>Decapsulate the NSH header and Ethernet header and output to the last SF</td>
+      <td>Destination entry For SFC-non-aware function</td>
+   </tr>
+   <tr>
+      <td>0</td>
+      <td>-</td>
+      <td>Go to table 3</td>
+      <td>Default entry</td>
+   </tr>
+</table>
+
+### Table 2:
+<table>
+   <tr>
+      <td>Priority</td>
+      <td>Match</td>
+      <td>Action</td>
+      <td>Note</td>
+   </tr>
+   <tr>
+      <td>0</td>
+      <td>-</td>
+      <td>Go to controller</td>
+      <td>Default entry</td>
+   </tr>
+   <tr>
+      <td></td>
+   </tr>
+</table>
+
+### Table 3:
+<table>
+   <tr>
+      <td>Priority</td>
+      <td>Match</td>
+      <td>Action</td>
+      <td>Note</td>
+   </tr>
+   <tr>
+      <td>0</td>
+      <td>-</td>
+      <td>Normal forwarding </td>
+      <td>Default entry</td>
+   </tr>
+   <tr>
+      <td></td>
+   </tr>
+</table>
 
 ## Interaction between controller and nodes
 ![Interaction](https://github.com/destinysky/resources/blob/master/nsh_sfc/Interaction%20between%20controller%20and%20nodes.png)
@@ -77,18 +202,57 @@ The allocation of VNFs can be input manually. It can also be allocated automatic
 #### Topology:
 ![Topology](https://github.com/destinysky/resources/blob/master/nsh_sfc/demo.png)
 
-#### Service: 1→2, 3 → 4 → 5
+#### Service: 1 → 2, 3 → 4 → 5
 #### Objective function: minimize the maximum number of VNFs allocated to each nodes
 ![Objective](http://latex.codecogs.com/gif.latex?\\min\\max_{n\in%20N}\\sum_{r\\in%20R}{\\sum_{k\\in%20K_r}{x_{n}^{rk}}})
 
 *N* is the set of nodes. *R* is the set of SFCs. ![](http://latex.codecogs.com/gif.latex?K_r) is the set of VNFs in SFC *r*. ![](http://latex.codecogs.com/gif.latex?x_n^{rk}=1)  VNF *k* in SFC *r* is allocated to node *n*, 0 otherwise.
 
+### Software:
+In this demo, Ryu 4.32, Mininet 2.3.0d6, Open vSwitch 2.12.0, Python 3.6.9, and Sqlite 2.8.17 are used.
+[SQLite Browser](http://sqlitebrowser.org/) is optional but helpful.
+
 ### Steps:
+1. Replace *ryu/ofproto/nicira_ext.py* and *ryu/ofproto/nx_actions.py* with [pull request #81 in Ryu](https://github.com/osrg/ryu/pull/81). You can also copy these two files in *ext* folder.
+2. Run *ryu-manager sfc_nfv*, *sudo ./topology.py*
+3. *pingall* in mininet
+4. *xterm h1* in mininet (optional)
+5. Run *test_sfc.py* by Python 3 (optional)
+6. *h4 tracepath h5* and *h5 tracepath h4* in mininet, see the results
+7. Run *curl -v 127.0.0.1:8080/add_flow/1* in a terminal.
+8. *h4 tracepath h5* and *h5 tracepath h4* in mininet, see the results
+9. Run *curl -v 127.0.0.1:8080/delete_flow/1* in a terminal.
+10. *h4 tracepath h5* and *h5 tracepath h4* in mininet, see the results
 
 ### Result:
 #### Imgs:
+![](https://github.com/destinysky/resources/blob/master/nsh_sfc/regres.png)
+
+![](https://github.com/destinysky/resources/blob/master/nsh_sfc/encap.png)
+
+![](https://github.com/destinysky/resources/blob/master/nsh_sfc/before.png)
+
+![](https://github.com/destinysky/resources/blob/master/nsh_sfc/after.png)
+
 
 #### Video:
 
+
+## Files:
+- sfc_nfv.py: Ryu application
+- test_sfc.py: Allocation model.
+- topology.py: Mininet topology.
+
+## Citation:
+If these codes are helpful to your work, please cite this paper.
+>R. Kang, F. He, T. Sato, and E. Oki, "Demonstration of Network Service Header Based Service Function Chain Application with Function Allocation Model," NOMS 2020 - 2020 IEEE/IFIP Network Operations and Management Symposium, Budapest, 2020, pp. 1-2.
+
+>@INPROCEEDINGS{203830, 
+author={R. {kang} and F. {He} and T. {Sato} and E. {Oki}}, 
+booktitle={NOMS 2020 - 2020 IEEE/IFIP Network Operations and Management Symposium}, 
+title={Demonstration of Network Service Header Based Service Function Chain Application with Function Allocation Model}, 
+year={2020},
+pages={1-2},
+month={April},}
 
 

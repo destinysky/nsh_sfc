@@ -3,7 +3,7 @@ This is an application for Ryu controller. It implements NSH (RFC8300) with SFC 
 
 ## Background: Service Function Chain (SFC)
 
-![background figure 1](https://github.com/destinysky/resources/blob/master/nsh_sfc/background1.png)
+![background figure 1](https://github.com/destinysky/resources/raw/master/nsh_sfc/background1.png)
 
 - A process can be divided into several functions. These functions form a service function chain in order.
    - Security function chain
@@ -13,7 +13,7 @@ This is an application for Ryu controller. It implements NSH (RFC8300) with SFC 
 
 It may change the path of packets. 
 
-![background figure 2](https://github.com/destinysky/resources/blob/master/nsh_sfc/background2.png)
+![background figure 2](https://github.com/destinysky/resources/raw/master/nsh_sfc/background2.png)
 
 ## Related Software
 - [Ryu](https://osrg.github.io/ryu/) 
@@ -30,7 +30,7 @@ It may change the path of packets.
 - Implement with Network Service Header (NSH), a proposed protocol in RFC 8300 
 
 ## Structure
-![structure](https://github.com/destinysky/resources/blob/master/nsh_sfc/structure.png)
+![structure](https://github.com/destinysky/resources/raw/master/nsh_sfc/structure.png)
 
 1. User register the needed SFC to database
 2. Allocation model calculates the allocation and sends the result to deployed nodes. 
@@ -40,7 +40,7 @@ It may change the path of packets.
 6. Modify the flow table in switches according to the database
 
 ## Modules in application
-![Modules](https://github.com/destinysky/resources/blob/master/nsh_sfc/modules%20in%20application.png)
+![Modules](https://github.com/destinysky/resources/raw/master/nsh_sfc/modules%20in%20application.png)
 
 1. WSGI: receives the request from REST api —— add or delete a service
 2. VNF register: receives the self register information from nodes and stores them in database.
@@ -182,26 +182,26 @@ It may change the path of packets.
 </table>
 
 ## Interaction between controller and nodes
-![Interaction](https://github.com/destinysky/resources/blob/master/nsh_sfc/Interaction%20between%20controller%20and%20nodes.png)
+![Interaction](https://github.com/destinysky/resources/raw/master/nsh_sfc/Interaction%20between%20controller%20and%20nodes.png)
 
 ## Database
 > Based on the database structure in [Service Function Chaining Application for Ryu SDN controller](https://github.com/abulanov/sfc_app)
 
-![database1](https://github.com/destinysky/resources/blob/master/nsh_sfc/database1.png)
-![database2](https://github.com/destinysky/resources/blob/master/nsh_sfc/database2.png)
-![database3](https://github.com/destinysky/resources/blob/master/nsh_sfc/database3.png)
+![database1](https://github.com/destinysky/resources/raw/master/nsh_sfc/database1.png)
+![database2](https://github.com/destinysky/resources/raw/master/nsh_sfc/database2.png)
+![database3](https://github.com/destinysky/resources/raw/master/nsh_sfc/database3.png)
 
 ## Cooperation with VNF allocation model (Optional)
 The allocation of VNFs can be input manually. It can also be allocated automatically by using VNF allocation model (Linear Programming approach or other algorithms).
 
-![cooperation](https://github.com/destinysky/resources/blob/master/nsh_sfc/cooperation.png)
+![cooperation](https://github.com/destinysky/resources/raw/master/nsh_sfc/cooperation.png)
 
 
 ## Demonstration
 ### Brief:
 #### Topology:
-![Topology](https://github.com/destinysky/resources/blob/master/nsh_sfc/demo.png)
-
+![Topology](https://github.com/destinysky/resources/raw/master/nsh_sfc/demo.png)
+raw
 #### Service: 1 → 2, 3 → 4 → 5
 #### Objective function: minimize the maximum number of VNFs allocated to each nodes
 ![Objective](http://latex.codecogs.com/gif.latex?\\min\\max_{n\in%20N}\\sum_{r\\in%20R}{\\sum_{k\\in%20K_r}{x_{n}^{rk}}})
@@ -226,18 +226,18 @@ In this demo, Ryu 4.32, Mininet 2.3.0d6, Open vSwitch 2.12.0, Python 3.6.9, and 
 
 ### Result:
 #### Imgs:
-![](https://github.com/destinysky/resources/blob/master/nsh_sfc/regres.png)
+![](https://github.com/destinysky/resources/raw/master/nsh_sfc/regres.png)
 
-![](https://github.com/destinysky/resources/blob/master/nsh_sfc/encap.png)
+![](https://github.com/destinysky/resources/raw/master/nsh_sfc/encap.png)
 
-![](https://github.com/destinysky/resources/blob/master/nsh_sfc/before.png)
+![](https://github.com/destinysky/resources/raw/master/nsh_sfc/before.png)
 
-![](https://github.com/destinysky/resources/blob/master/nsh_sfc/after.png)
+![](https://github.com/destinysky/resources/raw/master/nsh_sfc/after.png)
 
 
 #### Video:
-![demo_gif](https://github.com/destinysky/resources/blob/master/nsh_sfc/screencast.gif)
-[![demo video](https://github.com/destinysky/resources/blob/master/nsh_sfc/Screencast_x264.mp4)]
+![demo_gif](https://github.com/destinysky/resources/raw/master/nsh_sfc/screencast.gif)
+[![demo video](https://github.com/destinysky/resources/raw/master/nsh_sfc/Screencast_x264.mp4)]
 
 ## Files:
 - sfc_nfv.py: Ryu application
